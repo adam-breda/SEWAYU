@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">SewayuPiks</string>
     <string name="select">Choose ur ngeng</string>
+    <string name="on_progress">on progress</string>
+    <string name="your_booking">your booking</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
