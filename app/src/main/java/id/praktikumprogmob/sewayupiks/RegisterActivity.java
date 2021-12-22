@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
         if (password.getText().toString().length() < 6) {
             valid = false;
-            passwordField.setError("Password is to short!");
+            passwordField.setError("Password is too short!");
         }
         if (confirmPassword.getText().toString().isEmpty()) {
             valid = false;
