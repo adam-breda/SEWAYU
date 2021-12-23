@@ -84,8 +84,8 @@ public class AddActivity extends AppCompatActivity {
                         items[1] = "Honda Vario DK 1804 UR (70k)";
                         items[2] = "Nmax DK 7658 JJ (120k)";
                         items[3] = "PCX DK 5145 FCF (130k)";
+                        pilihkendaraan.setText(items[0], false);
                         seekBar.setMax(3);
-                        seekBar.setProgress(3);
                         break;
                     case R.id.lakik:
                         kategoriTerpilih = "Mobil";
@@ -93,8 +93,8 @@ public class AddActivity extends AppCompatActivity {
                         items[1] = "Honda Jazz DK 1518 RD (300k)";
                         items[2] = "Suzuki Ertiga DK 1004 OK (250k)";
                         items[3] = "Mitsubishi Pajero Sport DK 9952 KL (700k)";
+                        pilihkendaraan.setText(items[0], false);
                         seekBar.setMax(45);
-                        seekBar.setProgress(45);
                         break;
                 }
             }

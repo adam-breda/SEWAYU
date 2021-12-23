@@ -79,6 +79,7 @@ public class EditActivity extends AppCompatActivity {
         ketersediaan.setText(ketersediaanBensin + " Liter");
         dbHelper.close();
 
+        pilihkendaraan.setText(kendaraanTerpilih, false);
         String[] keperluanArr = keperluan.split("<br>");
         for (String s : keperluanArr) {
             switch (s) {
@@ -122,6 +123,7 @@ public class EditActivity extends AppCompatActivity {
                         items[1] = "Honda Vario DK 1804 UR (70k)";
                         items[2] = "Nmax DK 7658 JJ (120k)";
                         items[3] = "PCX DK 5145 FCF (130k)";
+                        pilihkendaraan.setText(items[0], false);
                         seekBar.setMax(3);
                         break;
                     case R.id.lakik:
@@ -130,6 +132,7 @@ public class EditActivity extends AppCompatActivity {
                         items[1] = "Honda Jazz DK 1518 RD (300k)";
                         items[2] = "Suzuki Ertiga DK 1004 OK (250k)";
                         items[3] = "Mitsubishi Pajero Sport DK 9952 KL (700k)";
+                        pilihkendaraan.setText(items[0], false);
                         seekBar.setMax(45);
                         break;
                 }
