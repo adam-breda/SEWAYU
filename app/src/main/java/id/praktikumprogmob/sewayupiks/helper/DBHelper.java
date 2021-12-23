@@ -127,9 +127,38 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.insert("sewayu", null, cv) > 0;
     }
 
+    public boolean updateSewayu (Sewayu sewayu, Integer id) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("user_id", sewayu.getUserId());
+        cv.put("kategori", sewayu.getKategori());
+        cv.put("jenis_kendaraan", sewayu.getJenisKendaraan());
+        cv.put("harga_sewa_per_hari", sewayu.getHargaSewaPerHari());
+        cv.put("keperluan", sewayu.getKeperluan());
+        cv.put("tanggal_awal_sewa", sewayu.getTanggalAwalSewa());
+        cv.put("tanggal_akhir_sewa", sewayu.getTanggalAkhirSewa());
+        cv.put("lama_sewa", sewayu.getLamaSewa());
+        cv.put("ketersediaan_bensin", sewayu.getKetersediaanBensin());
+        cv.put("harga_bensin_per_liter", sewayu.getHargaBensinPerLiter());
+        cv.put("total_bayar", sewayu.getTotalBayar());
+
+        return db.update("sewayu", cv, "id" + "=" + id,
+                null) > 0;
+    }
+
+    public void deleteSewayu (Integer id) {
+        SQLiteDatabase db = getReadableDatabase();
+        db.delete("sewayu", "id" + "=" + id, null);
+    }
+
     public Cursor getAllSewayu () {
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery("Select * from " + "sewayu", null);
+    }
+
+    public Cursor getSewayuById (Integer id) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery("Select * from " + "sewayu where id = "+id, null);
     }
 
     public Cursor getAllSewayuByUser (Integer id) {
@@ -149,6 +178,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor getOnProgress (Integer id) {
         SQLiteDatabase db = getReadableDatabase();
-        return db.rawQuery("Select * from " + "sewayu where user_id = "+id+" and strftime('%d-%M-%Y', date('now','localtime')) between tanggal_awal_sewa and tanggal_akhir_sewa order by tanggal_akhir_sewa DESC", null);
+        return db.rawQuery("Select * from " + "sewayu where user_id = "+id+" and tanggal_awal_sewa <= strftime('%d-%M-%Y', date('now','localtime')) and tanggal_akhir_sewa >= strftime('%d-%M-%Y', date('now','localtime')) order by tanggal_akhir_sewa DESC", null);
     }
 }

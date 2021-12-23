@@ -4,18 +4,24 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import id.praktikumprogmob.sewayupiks.AddActivity;
+import id.praktikumprogmob.sewayupiks.EditActivity;
+import id.praktikumprogmob.sewayupiks.MainActivity;
 import id.praktikumprogmob.sewayupiks.R;
 import id.praktikumprogmob.sewayupiks.helper.DBHelper;
 
@@ -75,6 +81,7 @@ public class OnProgressAdapter extends RecyclerView.Adapter<OnProgressAdapter.Vi
 
     @Override
     public void onBindViewHolder(OnProgressAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+        Integer idView = (Integer) id.get(position);
         Integer userIdView = (Integer) userId.get(position);
         String kategoriView = (String) kategori.get(position);
         String kendaraanView = (String) jenisKendaraan.get(position);
@@ -125,6 +132,45 @@ public class OnProgressAdapter extends RecyclerView.Adapter<OnProgressAdapter.Vi
                 });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
+            }
+        });
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                Intent intent = new Intent(context, EditActivity.class);
+                intent.putExtra("id", idView);
+                context.startActivity(intent);
+            }
+        });
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                AlertDialog.Builder dialog;
+                LayoutInflater inflater;
+                View dialogView;
+                dialog = new AlertDialog.Builder(context);
+                inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+                dialogView = inflater.inflate(R.layout.modal_delete, null);
+                dialog.setView(dialogView);
+                dialog.setCancelable(true);
+                dialog.setIcon(R.mipmap.ic_launcher);
+
+                dialog.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        DBHelper dbHelper = new DBHelper(context.getApplicationContext());
+                        dbHelper.deleteSewayu(idView);
+                        Toast.makeText(context.getApplicationContext(), "Data berhasil dihapus", Toast.LENGTH_SHORT).show();
+                        dbHelper.close();
+                        Intent intent = new Intent(view.getContext(), MainActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
+                dialog.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+                dialog.show();
             }
         });
     }
