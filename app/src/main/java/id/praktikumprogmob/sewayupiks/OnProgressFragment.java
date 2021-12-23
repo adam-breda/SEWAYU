@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import id.praktikumprogmob.sewayupiks.adapter.HistoryAdapter;
-import id.praktikumprogmob.sewayupiks.adapter.OnProgressAdapter;
 import id.praktikumprogmob.sewayupiks.helper.DBHelper;
 
 /**
@@ -106,7 +105,7 @@ public class OnProgressFragment extends Fragment {
         layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        adapter = new OnProgressAdapter(id, userId, kategori, jenisKendaraan, hargaSewaPerHari, keperluan, tanggalAwalSewa, tanggalAkhirSewa, lamaSewa, ketersediaanBensin, hargaBensinPerLiter, totalBayar);
+        adapter = new HistoryAdapter(id, userId, kategori, jenisKendaraan, hargaSewaPerHari, keperluan, tanggalAwalSewa, tanggalAkhirSewa, lamaSewa, ketersediaanBensin, hargaBensinPerLiter, totalBayar);
         recyclerView.setAdapter(adapter);
     }
 

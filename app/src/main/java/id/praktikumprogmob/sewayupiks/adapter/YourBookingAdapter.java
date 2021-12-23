@@ -10,7 +10,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,13 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import id.praktikumprogmob.sewayupiks.AddActivity;
 import id.praktikumprogmob.sewayupiks.EditActivity;
+import id.praktikumprogmob.sewayupiks.ListActivity;
 import id.praktikumprogmob.sewayupiks.MainActivity;
 import id.praktikumprogmob.sewayupiks.R;
+import id.praktikumprogmob.sewayupiks.YourBookingFragment;
 import id.praktikumprogmob.sewayupiks.helper.DBHelper;
 
-public class OnProgressAdapter extends RecyclerView.Adapter<OnProgressAdapter.ViewHolder>{
+public class YourBookingAdapter extends RecyclerView.Adapter<YourBookingAdapter.ViewHolder>{
     private ArrayList id;
     private ArrayList userId;
     private ArrayList kategori;
@@ -41,7 +41,7 @@ public class OnProgressAdapter extends RecyclerView.Adapter<OnProgressAdapter.Vi
     private Context context;
     private View view;
 
-    public OnProgressAdapter(ArrayList id, ArrayList userId, ArrayList kategori, ArrayList jenisKendaraan, ArrayList hargaSewaPerHari, ArrayList keperluan, ArrayList tanggalAwalSewa, ArrayList tanggalAkhirSewa, ArrayList lamaSewa, ArrayList ketersediaanBensin, ArrayList hargaBensinPerLiter, ArrayList totalBayar) {
+    public YourBookingAdapter(ArrayList id, ArrayList userId, ArrayList kategori, ArrayList jenisKendaraan, ArrayList hargaSewaPerHari, ArrayList keperluan, ArrayList tanggalAwalSewa, ArrayList tanggalAkhirSewa, ArrayList lamaSewa, ArrayList ketersediaanBensin, ArrayList hargaBensinPerLiter, ArrayList totalBayar) {
         this.id = id;
         this.userId = userId;
         this.kategori = kategori;
@@ -74,13 +74,13 @@ public class OnProgressAdapter extends RecyclerView.Adapter<OnProgressAdapter.Vi
     }
 
     @Override
-    public OnProgressAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public YourBookingAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_edit_delete, parent, false);
-        return new OnProgressAdapter.ViewHolder(view);
+        return new YourBookingAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(OnProgressAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(YourBookingAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         Integer idView = (Integer) id.get(position);
         Integer userIdView = (Integer) userId.get(position);
         String kategoriView = (String) kategori.get(position);
@@ -161,7 +161,7 @@ public class OnProgressAdapter extends RecyclerView.Adapter<OnProgressAdapter.Vi
                         dbHelper.deleteSewayu(idView);
                         Toast.makeText(context.getApplicationContext(), "Data berhasil dihapus", Toast.LENGTH_SHORT).show();
                         dbHelper.close();
-                        Intent intent = new Intent(view.getContext(), MainActivity.class);
+                        Intent intent = new Intent(view.getContext(), ListActivity.class);
                         context.startActivity(intent);
                     }
                 });
