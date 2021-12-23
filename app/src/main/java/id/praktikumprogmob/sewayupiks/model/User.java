@@ -28,6 +28,9 @@ public class User {
         this.usia = usia;
     }
 
+    public User() {
+    }
+
     public Integer getId() {
         return id;
     }

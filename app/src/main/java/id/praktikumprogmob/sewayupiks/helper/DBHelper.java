@@ -5,7 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import id.praktikumprogmob.sewayupiks.model.Sewayu;
 import id.praktikumprogmob.sewayupiks.model.User;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -24,13 +31,29 @@ public class DBHelper extends SQLiteOpenHelper {
                 "alamat TEXT," +
                 "usia INTEGER)"
         );
+        db.execSQL("CREATE TABLE sewayu(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "user_id INTEGER," +
+                "kategori TEXT, "+
+                "jenis_kendaraan TEXT, " +
+                "harga_sewa_per_hari INTEGER, "+
+                "keperluan TEXT, " +
+                "tanggal_awal_sewa DATE, " +
+                "tanggal_akhir_sewa DATE, " +
+                "lama_sewa INTEGER, " +
+                "ketersediaan_bensin INTEGER, " +
+                "harga_bensin_per_liter, " +
+                "total_bayar INTEGER)"
+        );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS user");
+        db.execSQL("DROP TABLE IF EXISTS sewayu");
     }
 
+    //================================user================================//
     public boolean addUser (User user) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -42,6 +65,16 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put("usia", user.getUsia());
 
         return db.insert("user", null, cv) > 0;
+    }
+
+    public Cursor getUserIdByEmail (String email) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery("Select id from " + "user" + " where email = '"+email+"' limit 1", null);
+    }
+
+    public Cursor getUserById (Integer id) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery("Select * from " + "user" + " where id = "+id, null);
     }
 
     public User Authenticate(User user) {
@@ -73,5 +106,49 @@ public class DBHelper extends SQLiteOpenHelper {
             return true;
         }
         return false;
+    }
+
+    //================================sewayu================================//
+    public boolean addSewayu (Sewayu sewayu) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("user_id", sewayu.getUserId());
+        cv.put("kategori", sewayu.getKategori());
+        cv.put("jenis_kendaraan", sewayu.getJenisKendaraan());
+        cv.put("harga_sewa_per_hari", sewayu.getHargaSewaPerHari());
+        cv.put("keperluan", sewayu.getKeperluan());
+        cv.put("tanggal_awal_sewa", sewayu.getTanggalAwalSewa());
+        cv.put("tanggal_akhir_sewa", sewayu.getTanggalAkhirSewa());
+        cv.put("lama_sewa", sewayu.getLamaSewa());
+        cv.put("ketersediaan_bensin", sewayu.getKetersediaanBensin());
+        cv.put("harga_bensin_per_liter", sewayu.getHargaBensinPerLiter());
+        cv.put("total_bayar", sewayu.getTotalBayar());
+
+        return db.insert("sewayu", null, cv) > 0;
+    }
+
+    public Cursor getAllSewayu () {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery("Select * from " + "sewayu", null);
+    }
+
+    public Cursor getAllSewayuByUser (Integer id) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery("Select * from " + "sewayu where user_id = "+id, null);
+    }
+
+    public Cursor getHistory (Integer id) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery("Select * from " + "sewayu where user_id = "+id+" and tanggal_akhir_sewa < strftime('%d-%M-%Y', date('now','localtime')) order by tanggal_akhir_sewa DESC", null);
+    }
+
+    public Cursor getYourBooking (Integer id) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery("Select * from " + "sewayu where user_id = "+id+" and tanggal_awal_sewa > strftime('%d-%M-%Y', date('now','localtime')) order by tanggal_akhir_sewa DESC", null);
+    }
+
+    public Cursor getOnProgress (Integer id) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery("Select * from " + "sewayu where user_id = "+id+" and strftime('%d-%M-%Y', date('now','localtime')) between tanggal_awal_sewa and tanggal_akhir_sewa order by tanggal_akhir_sewa DESC", null);
     }
 }

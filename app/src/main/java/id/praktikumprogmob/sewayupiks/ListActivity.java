@@ -19,7 +19,7 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         navigationView = findViewById(R.id.navigation);
-        getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new OnProgressFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.body, new OnProgressFragment()).commit();
         navigationView.setSelectedItemId(R.id.on_progress);
 
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -36,7 +36,7 @@ public class ListActivity extends AppCompatActivity {
                         fragment = new YourBookingFragment();
                         break;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.body_container, fragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.body, fragment).commit();
                 return true;
             }
         });

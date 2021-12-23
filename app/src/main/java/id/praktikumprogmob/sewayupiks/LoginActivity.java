@@ -3,9 +3,9 @@ package id.praktikumprogmob.sewayupiks;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,6 +19,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText email, password;
     private TextInputLayout emailField, passwordField;
     private DBHelper dbHelper;
+
+    public static Integer userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,11 @@ public class LoginActivity extends AppCompatActivity {
         if (validate()) {
             User currentUser = dbHelper.Authenticate(new User(null, null, null, email.getText().toString(), password.getText().toString(), null, null));
             if (currentUser != null) {
+                DBHelper dh = new DBHelper(getApplicationContext());
+                Cursor cursor = dh.getUserIdByEmail(email.getText().toString());
+                cursor.moveToFirst();
+                userId = cursor.getInt(0);
+                dh.close();
                 Toast.makeText(getApplicationContext(), "Successfully Logged in!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);

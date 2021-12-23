@@ -32,4 +32,11 @@
         app:itemIconSize="25sp"
         app:itemIconTint="@drawable/item_selector_navigation"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/body"
+        android:layout_below="@id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

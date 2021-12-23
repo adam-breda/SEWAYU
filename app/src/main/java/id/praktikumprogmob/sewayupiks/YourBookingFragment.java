@@ -1,12 +1,21 @@
 package id.praktikumprogmob.sewayupiks;
 
+import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+
+import id.praktikumprogmob.sewayupiks.adapter.HistoryAdapter;
+import id.praktikumprogmob.sewayupiks.helper.DBHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +23,22 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class YourBookingFragment extends Fragment {
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList id;
+    private ArrayList userId;
+    private ArrayList kategori;
+    private ArrayList jenisKendaraan;
+    private ArrayList hargaSewaPerHari;
+    private ArrayList keperluan;
+    private ArrayList tanggalAwalSewa;
+    private ArrayList tanggalAkhirSewa;
+    private ArrayList lamaSewa;
+    private ArrayList ketersediaanBensin;
+    private ArrayList hargaBensinPerLiter;
+    private ArrayList totalBayar;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +85,53 @@ public class YourBookingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_your_booking, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        id = new ArrayList<>();
+        userId = new ArrayList<>();
+        kategori = new ArrayList<>();
+        jenisKendaraan = new ArrayList<>();
+        hargaBensinPerLiter = new ArrayList<>();
+        hargaSewaPerHari = new ArrayList<>();
+        keperluan = new ArrayList<>();
+        tanggalAkhirSewa = new ArrayList<>();
+        tanggalAwalSewa = new ArrayList<>();
+        lamaSewa = new ArrayList<>();
+        ketersediaanBensin = new ArrayList<>();
+        totalBayar = new ArrayList<>();
+        recyclerView = view.findViewById(R.id.recyclercview);
+        getData();
+        layoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        adapter = new HistoryAdapter(id, userId, kategori, jenisKendaraan, hargaSewaPerHari, keperluan, tanggalAwalSewa, tanggalAkhirSewa, lamaSewa, ketersediaanBensin, hargaBensinPerLiter, totalBayar);
+        recyclerView.setAdapter(adapter);
+    }
+
+
+
+    @SuppressLint("Recycle")
+    protected void getData() {
+        final DBHelper dh = new DBHelper(this.getContext());
+        Cursor cursor = dh.getYourBooking(LoginActivity.userId);
+        cursor.moveToFirst();
+
+        for (int count = 0; count < cursor.getCount(); count++) {
+            cursor.moveToPosition(count);
+            id.add(cursor.getInt(0));
+            userId.add(cursor.getInt(1));
+            kategori.add(cursor.getString(2));
+            jenisKendaraan.add(cursor.getString(3));
+            hargaSewaPerHari.add(cursor.getInt(4));
+            keperluan.add(cursor.getString(5));
+            tanggalAwalSewa.add(cursor.getString(6));
+            tanggalAkhirSewa.add(cursor.getString(7));
+            lamaSewa.add(cursor.getInt(8));
+            ketersediaanBensin.add(cursor.getInt(9));
+            hargaBensinPerLiter.add(cursor.getInt(10));
+            totalBayar.add(cursor.getInt(11));
+        }
     }
 }
