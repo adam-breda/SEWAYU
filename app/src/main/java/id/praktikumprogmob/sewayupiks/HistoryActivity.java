@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -80,5 +81,9 @@ public class HistoryActivity extends AppCompatActivity {
             hargaBensinPerLiter.add(cursor.getInt(10));
             totalBayar.add(cursor.getInt(11));
         }
+    }
+
+    public void backButton(View view) {
+        onBackPressed();
     }
 }

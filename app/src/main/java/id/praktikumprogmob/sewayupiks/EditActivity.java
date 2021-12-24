@@ -407,4 +407,7 @@ public class EditActivity extends AppCompatActivity {
         return aman;
     }
 
+    public void backButton(View view) {
+        onBackPressed();
+    }
 }

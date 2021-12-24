@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -41,5 +42,9 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void backButton(View view) {
+        onBackPressed();
     }
 }
