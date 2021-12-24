@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,7 @@ public class HistoryActivity extends AppCompatActivity {
     private ArrayList ketersediaanBensin;
     private ArrayList hargaBensinPerLiter;
     private ArrayList totalBayar;
+    private TextView noData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +52,17 @@ public class HistoryActivity extends AppCompatActivity {
         ketersediaanBensin = new ArrayList<>();
         totalBayar = new ArrayList<>();
         recyclerView = findViewById(R.id.recyclercview);
+        noData = findViewById(R.id.textData);
         getData();
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         adapter = new HistoryAdapter(id, userId, kategori, jenisKendaraan, hargaSewaPerHari, keperluan, tanggalAwalSewa, tanggalAkhirSewa, lamaSewa, ketersediaanBensin, hargaBensinPerLiter, totalBayar);
         recyclerView.setAdapter(adapter);
+
+        if(adapter.getItemCount() != 0){
+            noData.setVisibility(View.GONE);
+        }
     }
 
 

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,7 @@ public class YourBookingFragment extends Fragment {
     private ArrayList ketersediaanBensin;
     private ArrayList hargaBensinPerLiter;
     private ArrayList totalBayar;
+    private TextView noData;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -102,12 +104,17 @@ public class YourBookingFragment extends Fragment {
         ketersediaanBensin = new ArrayList<>();
         totalBayar = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recyclercview);
+        noData = view.findViewById(R.id.textData);
         getData();
         layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         adapter = new YourBookingAdapter(id, userId, kategori, jenisKendaraan, hargaSewaPerHari, keperluan, tanggalAwalSewa, tanggalAkhirSewa, lamaSewa, ketersediaanBensin, hargaBensinPerLiter, totalBayar);
         recyclerView.setAdapter(adapter);
+
+        if(adapter.getItemCount() != 0){
+            noData.setVisibility(View.GONE);
+        }
     }
 
 

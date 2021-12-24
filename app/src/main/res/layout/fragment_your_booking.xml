@@ -12,4 +12,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Belum ada data"
+        android:textSize="20sp"
+        android:id="@+id/textData"
+        />
+
 </FrameLayout>
